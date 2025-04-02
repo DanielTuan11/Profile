@@ -29,7 +29,7 @@ const DEMO_CONTACT_DATA = {
     "github": "https://github.com/johndoe",
     "instagram": "https://instagram.com/johndoe"
   },
-  "profileImage": "/images/profile.png",
+  "profileImage": `${process.env.PUBLIC_URL}/images/profile.png`,
   "bankAccounts": [
     {
       "bankName": "Techcombank",
