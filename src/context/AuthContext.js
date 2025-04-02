@@ -29,7 +29,7 @@ const DEMO_CONTACT_DATA = {
     "github": "https://github.com/johndoe",
     "instagram": "https://instagram.com/johndoe"
   },
-  "profileImage": "https://rawzonestorage.blob.core.windows.net/d-public/users/avatars/07832af9743bb893c93ec37d5174ebc6ea2e1975_1741337099976.jpg",
+  "profileImage": "/images/profile.jpg",
   "bankAccounts": [
     {
       "bankName": "Techcombank",
