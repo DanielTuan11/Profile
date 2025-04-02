@@ -15,14 +15,14 @@ const DEMO_CREDENTIALS = {
 
 // Actual contact data from server/data/contacts.json
 const DEMO_CONTACT_DATA = {
-  "name": "Anton",
-  "title": "Solution Architecture",
+  "name": "Daniel.Tuấn",
+  "title": "Software Developer",
   "company": "De heus",
-  "email": "haminton46@gmail.com",
-  "phone": "+84 782884650",
-  "address": "188/1 Nguyễn Văn Hưởng, Phường Thảo Điền, Quận 2",
-  "website": "https://trickbaker.github.io",
-  "bio": "Experienced product manager with a passion for creating user-friendly digital experiences.",
+  "email": "qtuan1106@gmail.com",
+  "phone": "+84 824312814",
+  "address": "09 Nguyễn Lữ",
+  "website": "https://daniel11.github.io",
+  "bio": "Gen z",
   "socials": {
     "linkedin": "https://linkedin.com/in/johndoe",
     "twitter": "https://twitter.com/johndoe",
@@ -33,7 +33,7 @@ const DEMO_CONTACT_DATA = {
   "bankAccounts": [
     {
       "bankName": "Techcombank",
-      "accountNumber": "19033953608016",
+      "accountNumber": "1106018386",
       "accountType": "Checking",
       "routingNumber": "TECHCOMBANK",
       "swift": "VTCBVNVX"
