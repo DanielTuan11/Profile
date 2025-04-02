@@ -25,7 +25,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Set the base URL for all axios requests - update this with your deployed server URL
 const apiUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://infocrypting-api.herokuapp.com/api' // Change this to your actual deployed server URL
+  ? 'https://infocrypting-api.herokuapp.com/api'
   : 'http://localhost:5000/api';
   
 axios.defaults.baseURL = apiUrl;

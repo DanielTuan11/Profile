@@ -4,7 +4,7 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 // Demo mode constants for GitHub Pages deployment
-const DEMO_MODE = window.location.hostname === 'trickbaker.github.io';
+const DEMO_MODE = window.location.hostname === 'danieltuan11.github.io';
 const DEMO_USER = { username: 'admin' };
 const DEMO_TOKEN = 'demo-token';
 // Real credentials from server/.env
