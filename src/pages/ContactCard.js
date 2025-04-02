@@ -79,7 +79,10 @@ const ContactCard = () => {
           setContactData(data);
         } else {
           // Use the API endpoint for production - force private on mobile
-          const endpoint = isAuthenticated || forcedPrivateView ? '/api/contact' : '/api/contact/public';
+          const endpoint = isAuthenticated || forcedPrivateView
+  ? '/contact'
+  : '/contact/public';
+
           const res = await axios.get(endpoint);
           setContactData(res.data);
         }
