@@ -69,7 +69,7 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/contact" element={<ContactCard />} />
-              <Route path="/contact/:id" element={<ContactCard />} />
+              <Route path="/contact/:username" element={<ContactCard />} />
               <Route path="/edit" element={<EditContact />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,46 +1,16 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import DEMO_CONTACTS from '../data/demoContacts';
 
 export const AuthContext = createContext();
 
-// Demo mode constants for GitHub Pages deployment
 const DEMO_MODE = window.location.hostname === 'danieltuan11.github.io';
 const DEMO_USER = { username: 'admin' };
 const DEMO_TOKEN = 'demo-token';
-// Real credentials from server/.env
-const DEMO_CREDENTIALS = { 
-  username: 'admin',  // From ADMIN_USERNAME in .env
-  password: 'password123' // From the comment in .env that says this is the unhashed version
-};
 
-// Actual contact data from server/data/contacts.json
-const DEMO_CONTACT_DATA = {
-  "name": "Daniel.Tuấn",
-  "title": "Software Developer",
-  "company": "De heus",
-  "email": "qtuan1106@gmail.com",
-  "phone": "+84 824312814",
-  "address": "09 Nguyễn Lữ",
-  "website": "https://daniel11.github.io",
-  "bio": "Gen z",
-  "socials": {
-    "linkedin": "https://linkedin.com/in/johndoe",
-    "twitter": "https://twitter.com/johndoe",
-    "github": "https://github.com/johndoe",
-    "instagram": "https://instagram.com/johndoe"
-  },
-  "profileImage": `${process.env.PUBLIC_URL}/images/profile.png`,
-  "bankAccounts": [
-    {
-      "bankName": "Techcombank",
-      "accountNumber": "1106018386",
-      "accountType": "Checking",
-      "routingNumber": "TECHCOMBANK",
-      "swift": "VTCBVNVX"
-    }
-  ],
-  "taxNumber": "123-45-6789",
-  "identificationNumber": "AB-123456789"
+const DEMO_CREDENTIALS = {
+  username: 'admin',
+  password: 'password123'
 };
 
 export const AuthProvider = ({ children }) => {
@@ -49,12 +19,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Check if user is authenticated on initial load
   useEffect(() => {
     const checkAuth = async () => {
-      // Check if token exists in localStorage
       const token = localStorage.getItem('token');
-      
       if (!token) {
         setLoading(false);
         return;
@@ -62,7 +29,6 @@ export const AuthProvider = ({ children }) => {
 
       try {
         if (DEMO_MODE) {
-          // Demo mode - just set as authenticated if token matches demo token
           if (token === DEMO_TOKEN) {
             setIsAuthenticated(true);
             setUser(DEMO_USER);
@@ -71,18 +37,12 @@ export const AuthProvider = ({ children }) => {
           }
           setLoading(false);
         } else {
-          // Production mode - verify with server
-          // Set auth token header
           setAuthToken(token);
-          
-          // Verify token with backend
           const res = await axios.get('/api/auth/verify');
-          
           if (res.data.valid) {
             setIsAuthenticated(true);
             setUser(res.data.user);
           } else {
-            // Token is invalid
             localStorage.removeItem('token');
             setAuthToken(null);
           }
@@ -99,7 +59,6 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // Set auth token in axios headers
   const setAuthToken = (token) => {
     if (token) {
       axios.defaults.headers.common['x-auth-token'] = token;
@@ -108,13 +67,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login user
   const login = async (username, password) => {
     setError(null);
-    
     try {
       if (DEMO_MODE) {
-        // Demo mode login - check against demo credentials
         if (username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password) {
           localStorage.setItem('token', DEMO_TOKEN);
           setIsAuthenticated(true);
@@ -125,21 +81,12 @@ export const AuthProvider = ({ children }) => {
           return false;
         }
       } else {
-        // Production mode - verify with server
         const res = await axios.post('/api/auth/login', { username, password });
-        
-        // Save token to localStorage
         localStorage.setItem('token', res.data.token);
-        
-        // Set token in axios headers
         setAuthToken(res.data.token);
-        
-        // Verify token to get user data
         const verifyRes = await axios.get('/api/auth/verify');
-        
         setIsAuthenticated(true);
         setUser(verifyRes.data.user);
-        
         return true;
       }
     } catch (err) {
@@ -152,28 +99,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout user
   const logout = () => {
-    // Remove token from localStorage
     localStorage.removeItem('token');
-    
-    // Remove token from axios headers
     setAuthToken(null);
-    
-    // Reset state
     setIsAuthenticated(false);
     setUser(null);
   };
 
-  // Get contact data
-  const getContactData = async () => {
+  const getContactData = async (username = 'daniel') => {
     if (DEMO_MODE) {
-      // In demo mode, return the demo data
-      return DEMO_CONTACT_DATA;
+      return DEMO_CONTACTS[username] || null;
     } else {
-      // In production, get data from the server
       try {
-        const res = await axios.get('/api/contact');
+        const res = await axios.get(`/api/contact/${username}`);
         return res.data;
       } catch (err) {
         console.error('Error fetching contact data:', err);
@@ -192,10 +130,10 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         getContactData,
-        demoMode: DEMO_MODE
+        demoMode: DEMO_MODE,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-}; 
+};

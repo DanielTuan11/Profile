@@ -20,7 +20,7 @@ const ContactCard = () => {
   const [animateProfile, setAnimateProfile] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { isAuthenticated, getContactData, demoMode } = useContext(AuthContext);
-  const { id } = useParams();
+  const { username } = useParams();
   const cardRef = useRef(null);
   const location = useLocation();
   
@@ -73,35 +73,18 @@ const ContactCard = () => {
   useEffect(() => {
     const fetchContactData = async () => {
       try {
-        if (demoMode) {
-          // Use the demo contact data from context
-          const data = await getContactData();
-          setContactData(data);
-        } else {
-          // Use the API endpoint for production - force private on mobile
-          const endpoint = isAuthenticated || forcedPrivateView
-  ? '/contact'
-  : '/contact/public';
-
-          const res = await axios.get(endpoint);
-          setContactData(res.data);
-        }
-        
-        setLoading(false);
-        
-        // Trigger animation after data is loaded
-        setTimeout(() => {
-          setAnimateProfile(true);
-        }, 300);
+        const data = await getContactData(username);
+        setContactData(data);
       } catch (err) {
         console.error('Error fetching contact data:', err);
         setError('Failed to load contact information');
+      } finally {
         setLoading(false);
       }
     };
-
+  
     fetchContactData();
-  }, [isAuthenticated, getContactData, demoMode, forcedPrivateView]);
+  }, [username]);
 
   // Function to generate vCard
   const generateVCard = () => {
