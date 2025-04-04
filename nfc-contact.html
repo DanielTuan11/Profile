@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   <title>InfoCrypting Contact</title>
   <script type="text/javascript">
-    // Check if device is mobile
     function isMobile() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 768;
     }
-    
-    // Immediately redirect to the contact page with the correct URL structure
-    // Always use private view on mobile
-    if (isMobile()) {
-      window.location.replace("https://DanielTuan11.github.io/InfoCrypting/#/contact");
+  
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("u");
+  
+    if (!username) {
+      window.location.href = "https://danieltuan11.github.io/#/";
     } else {
-      window.location.replace("https://DanielTuan11.github.io/InfoCrypting/#/contact?view=public");
+      const base = `https://danieltuan11.github.io/#/contact/${username}`;
+      const url = isMobile() ? base : `${base}?view=public`;
+      window.location.href = url;
     }
   </script>
 </head>
